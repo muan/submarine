@@ -9,7 +9,7 @@ var header = args.header
 var footer = args.footer
 
 if(!fs.existsSync('./' + input_dir)) {
-  console.warn('\033[91mThe input directory you specify does not exist.\033[0m')
+  console.warn('\033[91mThe input directory `./' + input_dir + '` does not exist.\033[0m')
 } else {
   submarine(input_dir, output_dir, header, footer)
 }
