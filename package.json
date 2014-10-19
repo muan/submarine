@@ -1,0 +1,20 @@
+{
+  "name": "submarine",
+  "version": "0.0.0",
+  "description": "Submarine takes you into the sea of knowledge",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "markdown",
+    "static",
+    "site"
+  ],
+  "author": "Mu-An Chiou <me@muanchiou.com>",
+  "license": "MIT",
+  "dependencies": {
+    "marked": "~0.3.2",
+    "handlebars": "~2.0.0"
+  }
+}
