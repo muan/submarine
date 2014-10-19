@@ -5,10 +5,10 @@ var hb = require('handlebars')
 var template = getTemplate()
 module.exports = submarine
 
-function submarine(input_dir, outpur_dir) {
+function submarine(input_dir, output_dir) {
   // Create output_dir if doesn't exist
-  if(!fs.existsSync('./' + outpur_dir)) {
-    fs.mkdir('./' + outpur_dir, function(err) {
+  if(!fs.existsSync('./' + output_dir)) {
+    fs.mkdir('./' + output_dir, function(err) {
       if (err) return console.log(err)
     })
   }
@@ -21,7 +21,7 @@ function submarine(input_dir, outpur_dir) {
 
     // Write index
     var index = template({content: generateIndex(files)})
-    fs.writeFile('./' + outpur_dir + '/index.html', index, function (err) {
+    fs.writeFile('./' + output_dir + '/index.html', index, function (err) {
       if (err) return console.log(err)
     })
 
@@ -29,13 +29,15 @@ function submarine(input_dir, outpur_dir) {
       fs.readFile('./' + input_dir + '/' + name, function(err, file) {
         var html = generateHTML(file.toString(), files[i-1], files[i+1])
         var filename = RegExp(/(.+)\.md$/).exec(name)[1]
-        fs.writeFile('./' + outpur_dir + '/' + filename + '.html', html, function (err) {
+        fs.writeFile('./' + output_dir + '/' + filename + '.html', html, function (err) {
           if (err) return console.log(err)
         })
         i++
       })
     })
   })
+
+  console.log('Done and done, open `' + output_dir + '/index.html` to have a look!')
 }
 
 function generateHTML(text, before, after) {
