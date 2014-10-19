@@ -16,7 +16,7 @@ function submarine(input_dir, output_dir) {
   // Create html files
   fs.readdir('./' + input_dir, function(err, files) {
     if (err) return console.log(err)
-    files = files.filter(function(n) { return n.match(/.+\..+$/) })
+    files = files.filter(function(n) { return n.match(/.+\..+$/) }).sort()
 
     // Write index
     fs.writeFile('./' + output_dir + '/index.html', indexHTML(files), function (err) {
