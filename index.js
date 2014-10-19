@@ -19,8 +19,7 @@ function submarine(input_dir, output_dir) {
     files = files.filter(function(n) { return n.match(/.+\..+$/) })
 
     // Write index
-    var index = template({content: generateIndex(files)})
-    fs.writeFile('./' + output_dir + '/index.html', index, function (err) {
+    fs.writeFile('./' + output_dir + '/index.html', indexHTML(files), function (err) {
       if (err) return console.log(err)
     })
 
@@ -50,16 +49,11 @@ function generateHTML(text, previous, next) {
   })
 }
 
-function generateIndex(files) {
-  var item = hb.compile('<li><a href="{{ href }}">{{ name }}</a></li>')
+function indexHTML(files) {
   var list = files.map(function(file) {
-    return item({ href: toDotHTML(file), name: file })
-  }).join('')
-  return '<ol>' + list + '</ol>'
-}
-
-function toDotHTML(filename) {
-  return filename.replace(/\.md/, '.html')
+    return { href: file.replace(/\.md/, '.html'), name: file }
+  })
+  return template({index: list})
 }
 
 function getTemplate() {
