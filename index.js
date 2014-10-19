@@ -17,7 +17,6 @@ function submarine(input_dir, output_dir) {
   fs.readdir('./' + input_dir, function(err, files) {
     if (err) return console.log(err)
     files = files.filter(function(n) { return n.match(/.+\..+$/) })
-    var i = 0
 
     // Write index
     var index = template({content: generateIndex(files)})
@@ -25,6 +24,8 @@ function submarine(input_dir, output_dir) {
       if (err) return console.log(err)
     })
 
+    // Write markdowns into HTML
+    var i = 0
     files.forEach(function(name) {
       fs.readFile('./' + input_dir + '/' + name, function(err, file) {
         var html = generateHTML(file.toString(), files[i-1], files[i+1])
@@ -40,11 +41,13 @@ function submarine(input_dir, output_dir) {
   console.log('Done and done, open `' + output_dir + '/index.html` to have a look!')
 }
 
-function generateHTML(text, before, after) {
+function generateHTML(text, previous, next) {
   var html = marked(text)
-  html += lastHTML(before)
-  html += nextHTML(after)
-  return template({content: html})
+  return template({
+    content: html, 
+    previous: (previous ? previous.replace(/\.md/, '') : ''),
+    next: (next ? next.replace(/\.md/, '') : '')
+  })
 }
 
 function generateIndex(files) {
@@ -62,16 +65,4 @@ function toDotHTML(filename) {
 function getTemplate() {
   file = fs.readFileSync(__dirname + '/template/index.html').toString()
   return hb.compile(file.toString())
-}
-
-function lastHTML(file) {
-  if(file) {
-    return '<a class="lastp navlink" href="' + toDotHTML(file) + '">Previous: ' + file + '</a>'
-  } else { return '' }
-}
-
-function nextHTML(file) {
-  if(file) {
-    return '<a class="nextp navlink" href="' + toDotHTML(file) + '">Next: ' + file + '</a>'
-  } else { return '' }
 }

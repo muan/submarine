@@ -71,6 +71,12 @@
 
     <section class="content">
       {{{ content }}}
+      {{#if previous}}
+        <a class="lastp navlink" href="{{ previous }}.html">Previous: {{ previous }}</a>
+      {{/if}}
+      {{#if next}}
+        <a class="nextp navlink" href="{{ next }}.html">Previous: {{ next }}</a>
+      {{/if}}
     </section>
 
     <footer class="site-footer">
