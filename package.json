@@ -1,6 +1,6 @@
 {
   "name": "submarine",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Submarine takes you into the sea of knowledge",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,13 @@
   "dependencies": {
     "marked": "~0.3.2",
     "handlebars": "~2.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muan/submarine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muan/submarine/issues"
   }
 }
