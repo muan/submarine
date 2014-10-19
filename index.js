@@ -26,15 +26,14 @@ function submarine(input_dir, output_dir, header, footer) {
     })
 
     // Write markdowns into HTML
-    var i = 0
     files.forEach(function(name) {
       fs.readFile('./' + input_dir + '/' + name, function(err, file) {
-        var html = generateHTML(file.toString(), files[i-1], files[i+1])
+        var index = files.indexOf(name)
+        var html = generateHTML(file.toString(), files[index-1], files[index+1])
         var filename = getFilename(name)
         fs.writeFile('./' + output_dir + '/' + filename + '.html', html, function (err) {
           if (err) return console.log(err)
         })
-        i++
       })
     })
   })
