@@ -12,7 +12,15 @@ npm install submarine -g
 
 ## Usage
 
-Pretend your file structure looks like this:
+Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live. Like so:
+
+```
+$ submarine [input_dir] [output_dir] --header=[headerTEXT] --footer=[footerTEXT]
+```
+
+## Example
+
+Imagine your file structure looks like this:
 
 ```
 guide/
@@ -22,16 +30,10 @@ guide/
   4_yolo_world.md
 ```
 
-Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live. Like so:
+Then run this in this directory:
 
 ```
-submarine [input_dir] [output_dir]
-```
-
-For example, run this in your working directory:
-
-```
-submarine guide site
+$ submarine guide site --header=Submarine --footer='Nice footer.'
 ```
 
 The markdown files in `./guide` will be converted, and a static site will be created in `./site`. Your new file structure will look like this:
