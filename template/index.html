@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Submarine</title>
+  <title>{{> header }}</title>
   <style>
     body {
       font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
@@ -32,6 +32,7 @@
       color: #999;
       margin-top: 20px;
       padding: 15px 0;
+      text-align: center;
     }
 
     .wrapper {
@@ -66,7 +67,7 @@
 <body>
   <div class="wrapper">
     <header class="site-header">
-      <a class="site-header-text" href="./index.html">Submarine</a>
+      <a class="site-header-text" href="./index.html">{{> header }}</a>
     </header>
 
     <section class="content">
@@ -89,7 +90,7 @@
     </section>
 
     <footer class="site-footer">
-      Nice footer.
+      {{> footer }}
     </footer>
   </div>
 </body>

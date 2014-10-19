@@ -18,7 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "marked": "~0.3.2",
-    "handlebars": "~2.0.0"
+    "handlebars": "~2.0.0",
+    "minimist": "~1.1.0"
   },
   "devDependencies": {},
   "repository": {

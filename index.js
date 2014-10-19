@@ -3,10 +3,11 @@ var path = require('path')
 var marked = require('marked')
 var hb = require('handlebars')
 
-var template = getTemplate()
 module.exports = submarine
 
-function submarine(input_dir, output_dir) {
+function submarine(input_dir, output_dir, header, footer) {
+  template = getTemplate(header, footer)
+
   // Create output_dir if doesn't exist
   if(!fs.existsSync('./' + output_dir)) {
     fs.mkdir('./' + output_dir, function(err) {
@@ -62,7 +63,9 @@ function indexHTML(files) {
   return template({index: list})
 }
 
-function getTemplate() {
+function getTemplate(header, footer) {
   file = fs.readFileSync(__dirname + '/template/index.html').toString()
+  hb.registerPartial('header', (header || "Submarine"))
+  hb.registerPartial('footer', (footer || ""))
   return hb.compile(file.toString())
 }
