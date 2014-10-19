@@ -20,11 +20,17 @@ guide/
   4_bye_world.md
 ```
 
-Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live.
+Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live. Like so:
+
+```
+submarine [input_dir] [output_dir]
+```
+
+For example, run this in your working directory:
 
 ```
 submarine guide site
 ```
 
-This command will convert the markdown files in `./guide`, and create a static site in `./site`.
+The markdown files in `./guide` will be converted, and a static site will be created in `./site`.
 
