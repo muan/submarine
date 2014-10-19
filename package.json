@@ -1,6 +1,6 @@
 {
   "name": "submarine",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Submarine takes you into the sea of knowledge",
   "main": "index.js",
   "scripts": {
