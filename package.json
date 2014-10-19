@@ -4,7 +4,7 @@
   "description": "Submarine takes you into the sea of knowledge",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test/test.js"
   },
   "bin": {
     "submarine": "bin/submarine.js"
@@ -21,7 +21,10 @@
     "handlebars": "~2.0.0",
     "minimist": "~1.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "~3.0.1",
+    "cheerio": "~0.17.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/muan/submarine.git"
