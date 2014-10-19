@@ -1,4 +1,5 @@
 var fs = require('fs')
+var path = require('path')
 var marked = require('marked')
 var hb = require('handlebars')
 
@@ -28,7 +29,7 @@ function submarine(input_dir, output_dir) {
     files.forEach(function(name) {
       fs.readFile('./' + input_dir + '/' + name, function(err, file) {
         var html = generateHTML(file.toString(), files[i-1], files[i+1])
-        var filename = RegExp(/(.+)\.md$/).exec(name)[1]
+        var filename = getFilename(name)
         fs.writeFile('./' + output_dir + '/' + filename + '.html', html, function (err) {
           if (err) return console.log(err)
         })
@@ -44,14 +45,19 @@ function generateHTML(text, previous, next) {
   var html = marked(text)
   return template({
     content: html, 
-    previous: (previous ? previous.replace(/\.md/, '') : ''),
-    next: (next ? next.replace(/\.md/, '') : '')
+    previous: getFilename(previous),
+    next: getFilename(next)
   })
+}
+
+function getFilename(name) {
+  return name ? path.basename(name, path.extname(name)) : ""
 }
 
 function indexHTML(files) {
   var list = files.map(function(file) {
-    return { href: file.replace(/\.md/, '.html'), name: file }
+    var name = getFilename(file)
+    return { href: name + '.html', name: name }
   })
   return template({index: list})
 }
