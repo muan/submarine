@@ -1,10 +1,13 @@
 {
   "name": "submarine",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Submarine takes you into the sea of knowledge",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
+  },
+  "bin": {
+    "submarine": "bin/submarine.js"
   },
   "keywords": [
     "markdown",
