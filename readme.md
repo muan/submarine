@@ -32,5 +32,18 @@ For example, run this in your working directory:
 submarine guide site
 ```
 
-The markdown files in `./guide` will be converted, and a static site will be created in `./site`.
+The markdown files in `./guide` will be converted, and a static site will be created in `./site`. Your new file structure will look like this:
 
+```
+guide/
+  1_hello_world.md
+  2_sup_world.md
+  3_cool_story_world.md
+  4_bye_world.md
+site/
+  1_hello_world.html
+  2_sup_world.html
+  3_cool_story_world.html
+  4_bye_world.html
+  index.html
+```
