@@ -17,7 +17,7 @@ guide/
   1_hello_world.md
   2_sup_world.md
   3_cool_story_world.md
-  4_bye_world.md
+  4_yolo_world.md
 ```
 
 Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live. Like so:
@@ -39,11 +39,11 @@ guide/
   1_hello_world.md
   2_sup_world.md
   3_cool_story_world.md
-  4_bye_world.md
+  4_yolo_world.md
 site/
   1_hello_world.html
   2_sup_world.html
   3_cool_story_world.html
-  4_bye_world.html
+  4_yolo_world.html
   index.html
 ```
