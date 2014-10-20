@@ -21,6 +21,7 @@ function doTest(filenames) {
 
   // Test begin
   fs.readdir(outputPath, function(err, files) {
+    if (err) return console.log(err)
     test('has right files', function(t) {
       t.equal( files.length, 5, 'created 5 files?')
       filenames.forEach(function(name) {
@@ -33,6 +34,7 @@ function doTest(filenames) {
 
   test('flags work', function(t) {
     fs.readFile(path.resolve(outputPath, 'index.html'), function(err, data) {
+      if (err) return console.log(err)
       var $ = cheerio.load(data.toString())
       t.equal( $('.site-header').text().trim(), 'Cool World', 'has header?')
       t.equal( $('.site-footer').text().trim(), 'All rights abandoned.', 'has footer?')
