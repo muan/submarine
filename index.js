@@ -16,7 +16,7 @@ function submarine(options, callback) {
   if(validInput) {
     boardSubmarine(options)
   } else {
-    console.warn('\033[91mThe input directory `./' + input_dir + '` does not exist.\033[0m')
+    callback('\033[91mThe input directory `./' + options.input_dir + '` does not exist.\033[0m')
   }
 
   function boardSubmarine(options) {
