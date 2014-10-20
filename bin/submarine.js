@@ -3,13 +3,14 @@
 var fs = require('fs')
 var submarine = require('../index.js')
 var args = require('minimist')(process.argv.slice(2))
-var input_dir = args._[0]
-var output_dir = args._[1]
-var header = args.header
-var footer = args.footer
-
-if(!fs.existsSync('./' + input_dir)) {
-  console.warn('\033[91mThe input directory `./' + input_dir + '` does not exist.\033[0m')
-} else {
-  submarine(input_dir, output_dir, header, footer)
+var options = {
+  input_dir: args._[0],
+  output_dir: args._[1],
+  header: args.header,
+  footer: args.footer
 }
+
+submarine(options, function(err) {
+  if (err) return console.log(err)
+  console.log('Built, yay! Open ' + options.output_dir + '/index.html to check it out!')
+})

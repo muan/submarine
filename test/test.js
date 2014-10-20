@@ -12,14 +12,25 @@ var fakeData   = require('./fakeData.js')
 
 // Teardown, buildup, and test
 rimraf(inputPath, function() {
-  fakeData(inputName, doTest)
+  fakeData(inputName, function(filenames) {
+    options = {
+      input_dir: inputPath,
+      output_dir: outputPath,
+      header: 'Cool World',
+      footer: 'All rights abandoned.'
+    }
+
+    // Run command to convert
+    submarine(options, function(err) {
+      if (err) return console.log(err)
+      console.log('Files built. <3')
+      startTests(filenames)
+    })
+  })
 })
 
-function doTest(filenames) {
-  // Run command to convert
-  submarine(inputPath, outputPath, 'Cool World', 'All rights abandoned.')
-
-  // Test begin
+// Test begin
+function startTests(filenames) {
   fs.readdir(outputPath, function(err, files) {
     if (err) return console.log(err)
     test('has right files', function(t) {

@@ -5,44 +5,75 @@ var hb = require('handlebars')
 
 module.exports = submarine
 
-function submarine(input_dir, output_dir, header, footer) {
-  template = getTemplate(header, footer)
+function submarine(options, callback) {
+  // input_dir, output_dir, header, footer
+  options.header = options.header || "Submarine"
+  options.footer = options.footer || ""
 
-  // Create output_dir if doesn't exist
-  if(!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
-    fs.mkdir(path.resolve(process.cwd(), output_dir), function(err) {
-      if (err) return console.log(err)
+  var input = path.resolve(process.cwd(), options.input_dir)
+  var validInput = fs.existsSync(input)
+
+  if(validInput) {
+    boardSubmarine(options)
+  } else {
+    console.warn('\033[91mThe input directory `./' + input_dir + '` does not exist.\033[0m')
+  }
+
+  function boardSubmarine(options) {
+    var template = getTemplate(options.header, options.footer)
+
+    createFolderMaybe(options.output_dir, function() {
+      fs.readdir(path.resolve(process.cwd(), options.input_dir), function(err, files) {
+        if (err) return callback(err)
+        files = files.filter(function(n) { return n.match(/.+\..+$/) }).sort()
+        makeFiles(files, options, callback)
+      })
     })
   }
 
-  // Create html files
-  fs.readdir(path.resolve(process.cwd(), input_dir), function(err, files) {
-    if (err) return console.log(err)
-    files = files.filter(function(n) { return n.match(/.+\..+$/) }).sort()
+  function createFolderMaybe(output_dir, proceed) {
+    // Create output_dir if doesn't exist
+    if(!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
+      fs.mkdir(path.resolve(process.cwd(), output_dir), function(err) {
+        if (err) return callback(err)
+        proceed()
+      })
+    } else {
+      proceed()
+    }
+  }
+}
 
-    // Write index
-    fs.writeFile(path.resolve(process.cwd(), output_dir, 'index.html'), indexHTML(files), function (err) {
-      if (err) return console.log(err)
-    })
+function makeFiles(files, options, callback) {
+  fs.writeFile(path.resolve(process.cwd(), options.output_dir, 'index.html'), generateIndexHTML(options, files), function (err) {
+    if (err) return callback(err)
 
     // Write markdowns into HTML
+    var i = 0
+    var t = true
     files.forEach(function(name) {
-      fs.readFile(path.resolve(process.cwd(), input_dir, name), function(err, file) {
-        if (err) return console.log(err)
+      fs.readFile(path.resolve(process.cwd(), options.input_dir, name), function(err, file) {
+        if (t && err) { t = false; return callback(err) }
         var index = files.indexOf(name)
-        var html = generateHTML(file.toString(), files[index-1], files[index+1])
-        var filename = getFilename(name)
-        fs.writeFile(path.resolve(process.cwd(), output_dir, filename + '.html'), html, function (err) {
-          if (err) return console.log(err)
+        var html = generateMdHTML(options, file.toString(), files[index-1], files[index+1])
+
+        fs.writeFile(path.resolve(process.cwd(), options.output_dir, getFilename(name) + '.html'), html, function (err) {
+          if (t && err) { t = false; return callback(err) }
+          i++
+
+          if (files.length == i) {
+            callback()
+          }
         })
       })
     })
   })
-
-  console.log('Done and done, open `' + output_dir + '/index.html` to have a look!')
 }
 
-function generateHTML(text, previous, next) {
+// Helpers live here
+
+function generateMdHTML(options, text, previous, next) {
+  var template = getTemplate(options.header, options.footer)
   var html = marked(text)
   return template({
     content: html, 
@@ -51,16 +82,17 @@ function generateHTML(text, previous, next) {
   })
 }
 
-function getFilename(name) {
-  return name ? path.basename(name, path.extname(name)) : ""
-}
-
-function indexHTML(files) {
+function generateIndexHTML(options, files) {
+  var template = getTemplate(options.header, options.footer)
   var list = files.map(function(file) {
     var name = getFilename(file)
     return { href: name + '.html', name: name }
   })
   return template({index: list})
+}
+
+function getFilename(name) {
+  return name ? path.basename(name, path.extname(name)) : ""
 }
 
 function getTemplate(header, footer) {
