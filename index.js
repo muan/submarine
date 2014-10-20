@@ -6,17 +6,18 @@ var hb = require('handlebars')
 module.exports = submarine
 
 function submarine(options, callback) {
-  // input_dir, output_dir, header, footer
   options.header = options.header || "Submarine"
   options.footer = options.footer || ""
 
   var input = path.resolve(process.cwd(), options.input_dir)
-  var validInput = fs.existsSync(input)
+  var invalidInput = !fs.existsSync(input)
 
-  if(validInput) {
-    boardSubmarine(options)
-  } else {
+  if(invalidInput) {
     callback('\033[91mThe input directory `./' + options.input_dir + '` does not exist.\033[0m')
+  } else if(!options.output_dir) {
+    callback('\033[91mPlease provide an output directory.\033[0m')
+  } else {
+    boardSubmarine(options)
   }
 
   function boardSubmarine(options) {
