@@ -2,7 +2,7 @@
 
 Submarine takes a directory full of markdown files and convert them into a static site of HTML pages, including a table of contents page.
 
-![](https://nodei.co/npm/submarine.png?compact=true)
+![](https://nodei.co/npm/submarine.png?downloads=true&stars=true)
 
 ## Install
 
