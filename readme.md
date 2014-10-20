@@ -1,4 +1,4 @@
-# Submarine
+# Submarine [![Build Status](https://travis-ci.org/muan/submarine.svg?branch=master)](https://travis-ci.org/muan/submarine)
 
 Submarine takes a directory full of markdown files and convert them into a static site of HTML pages, including a table of contents page.
 

@@ -23,7 +23,8 @@
   },
   "devDependencies": {
     "tape": "~3.0.1",
-    "cheerio": "~0.17.0"
+    "cheerio": "~0.17.0",
+    "rimraf": "~2.2.8"
   },
   "repository": {
     "type": "git",
