@@ -10,7 +10,18 @@ var options = {
   footer: args.footer
 }
 
-submarine(options, function(err) {
-  if (err) return console.log(err)
-  console.log('Built, yay! Open ' + options.output_dir + '/index.html to check it out!')
-})
+if(args.version) {
+  console.log(require('../package.json').version)
+} else if (args._.length === 0) {
+  console.log('Usage: submarine [input_directory] [output_directory]\n')
+  console.log('Options: ')
+  console.log('  --header=<header>    customize static site header, default to "Submarine"')
+  console.log('  --footer=<footer>    customize static site footer')
+  console.log('  --version            prints current version ')
+  console.log('')
+} else {
+  submarine(options, function(err) {
+    if (err) return console.log(err)
+    console.log('Built, yay! Open ' + options.output_dir + '/index.html to check it out!')
+  })
+}
