@@ -61,7 +61,7 @@ function makeFiles(files, options, callback) {
           if (t && err) { t = false; return callback(err) }
           i++
 
-          if (files.length == i) {
+          if (files.length === i) {
             callback()
           }
         })
