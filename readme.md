@@ -19,8 +19,9 @@ var submarine = require('submarine')
 var options = {
   input_dir: 'content',
   output_dir: 'site',
-  header: 'API Example',
-  footer: 'hi this shows in the footer'
+  header: 'API Example', // optional
+  footer: 'hi this shows in the footer', // optional
+  template: 'custom/default.html' // optional
 }
 
 submarine(options, callback)
@@ -33,10 +34,16 @@ function callback(err) {
 
 ### Command Line
 
-Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live. Like so:
+Submarine takes 2 arguments, `[input_dir]` for where the markdown files live, and `[output_dir]` for where your static site will live.
 
 ```shell
-$ submarine [input_dir] [output_dir] --header=[headerTEXT] --footer=[footerTEXT]
+Usage: submarine [input_directory] [output_directory]
+
+Options:
+  --header=<header>    customize static site header, default to "Submarine"
+  --footer=<footer>    customize static site footer
+  --template=<file>    use a custom template
+  --version            prints current version
 ```
 
 ### Command Line Example

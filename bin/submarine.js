@@ -7,7 +7,8 @@ var options = {
   input_dir: args._[0],
   output_dir: args._[1],
   header: args.header,
-  footer: args.footer
+  footer: args.footer,
+  template: args.template
 }
 
 if(args.version) {
@@ -18,8 +19,9 @@ if(args.version) {
   console.log('Options: ')
   console.log('  --header=<header>    customize static site header, default to "Submarine"')
   console.log('  --footer=<footer>    customize static site footer')
+  console.log('  --template=<file>    use a custom template')
   console.log('  --version            prints current version ')
-  console.log('')
+  console.log()
   process.exit(0)
 } else {
   submarine(options, function(err) {

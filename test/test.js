@@ -2,29 +2,32 @@ var submarine  = require('../index.js')
 var fs         = require('fs')
 var test       = require('tape')
 var path       = require('path')
-var tmp        = require('os').tmpdir()
-var inputName  = 'content'
-var inputPath  = path.resolve(tmp, inputName)
+var tmp        = path.resolve(require('os').tmpdir(), 'submarine')
+var inputPath  = path.resolve(tmp, 'content')
 var outputPath = path.resolve(tmp, 'site')
 var cheerio    = require('cheerio')
 var rimraf     = require('rimraf')
 var fakeData   = require('./fakeData.js')
 
 // Teardown, buildup, and test
-rimraf(inputPath, function() {
-  fakeData(inputName, function(filenames) {
-    options = {
-      input_dir: inputPath,
-      output_dir: outputPath,
-      header: 'Cool World',
-      footer: 'All rights abandoned.'
-    }
+rimraf(tmp, function() {
+  fs.mkdir(tmp, function(err) {
+    if (err) return console.log(err)
 
-    // Run command to convert
-    submarine(options, function(err) {
-      if (err) return console.log(err)
-      console.log('Files built. <3')
-      startTests(filenames)
+    fakeData(inputPath, function(filenames) {
+      options = {
+        input_dir: inputPath,
+        output_dir: outputPath,
+        header: 'Cool World',
+        footer: 'All rights abandoned.'
+      }
+
+      // Run command to convert
+      submarine(options, function(err) {
+        if (err) return console.log(err)
+        console.log('Files built. <3')
+        startTests(filenames)
+      })
     })
   })
 })
