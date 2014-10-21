@@ -12,6 +12,7 @@ var options = {
 
 if(args.version) {
   console.log(require('../package.json').version)
+  process.exit(0)
 } else if (args._.length === 0) {
   console.log('Usage: submarine [input_directory] [output_directory]\n')
   console.log('Options: ')
@@ -19,9 +20,15 @@ if(args.version) {
   console.log('  --footer=<footer>    customize static site footer')
   console.log('  --version            prints current version ')
   console.log('')
+  process.exit(0)
 } else {
   submarine(options, function(err) {
-    if (err) return console.log(err)
-    console.log('Built, yay! Open ' + options.output_dir + '/index.html to check it out!')
+    if (err) {
+      console.log(err)
+      process.exit(1)
+    } else {
+      console.log('Built, yay! Open ' + options.output_dir + '/index.html to check it out!')
+      process.exit(0)
+    }
   })
 }
