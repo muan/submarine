@@ -4,7 +4,7 @@
   "description": "takes you into the sea of knowledge",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js | tap-spec"
   },
   "bin": {
     "submarine": "bin/submarine.js"
@@ -24,7 +24,8 @@
   "devDependencies": {
     "tape": "~3.0.1",
     "cheerio": "~0.17.0",
-    "rimraf": "~2.2.8"
+    "rimraf": "~2.2.8",
+    "tap-spec": "~1.0.1"
   },
   "repository": {
     "type": "git",
