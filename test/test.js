@@ -8,6 +8,7 @@ var outputPath = path.resolve(tmp, 'site')
 var cheerio    = require('cheerio')
 var rimraf     = require('rimraf')
 var fakeData   = require('./fakeData.js')
+var called     = false
 
 // Teardown, buildup, and test
 rimraf(tmp, function() {
@@ -26,6 +27,7 @@ rimraf(tmp, function() {
       submarine(options, function(err) {
         if (err) return console.log(err)
         console.log('Files built. <3')
+        called = true
         startTests(filenames)
       })
     })
@@ -34,14 +36,22 @@ rimraf(tmp, function() {
 
 // Test begin
 function startTests(filenames) {
+  test('basics', function(t) {
+    t.assert(called, 'callback is called')
+    t.end()
+  })
+
   fs.readdir(outputPath, function(err, files) {
     if (err) return console.log(err)
-    test('has right files', function(t) {
+    test('has the right files', function(t) {
       t.equal( files.length, 5, 'created 5 files?')
       filenames.forEach(function(name) {
-        t.assert( files.indexOf(name + '.html') >= 0, name + '.html exists?')
+        fs.readFile(path.resolve(outputPath, name + '.html'), function(err, data) {
+          t.error( err, name + '.html exists?')
+          t.ok( data.toString().match('<strong>' + name + '</strong>'), name + '.html contains html including the name?')
+        })
       })
-      t.assert( files.indexOf('index.html') >= 0, 'index.html exists?')
+      t.ok( files.indexOf('index.html') >= 0, 'index.html exists?')
       t.end()
     })
   })

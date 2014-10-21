@@ -89,7 +89,8 @@ function submarine(options, callback) {
 
       fs.writeFile(path.resolve(process.cwd(), options.output_dir, getFilename(file) + '.html'), html, function (err) {
         if (t && err) { t = false; return callback(err) }
-        callback(i++)
+        i++
+        finishing(i)
       })
     })
   }
