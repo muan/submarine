@@ -84,6 +84,17 @@ site/
 
 ![](http://cl.ly/image/3J3z413c1R0v/Image%202014-10-19%20at%2011.34.05%20PM.png)
 
+## Template
+
+You can specify a custom template, just write a single HTML file that contains these variables:
+
+- `{{> header }}` a string, retrived through options.header
+- `{{> footer }}` a string, retrived through options.footer
+- `{{# index }}` an array of objects(markdown -> html pages), each has 2 keys: `href`, `name`
+- `{{{ content }}}` markdown converted to HTML
+- `{{ previous }}` file name of the previous page
+- `{{ next }}` file name of the next page
+
 ## License
 
 MIT
