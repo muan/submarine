@@ -86,7 +86,7 @@ site/
 
 ## Template
 
-You can specify a custom template, just write a single HTML file that contains these variables:
+You can specify a custom template with `--template=cooltemplate.html`, see [the default template](https://github.com/muan/submarine/blob/master/template/index.html) for an example. It's super easy, just write a single HTML file that contains these variables:
 
 - `{{> header }}` a string, retrived through options.header
 - `{{> footer }}` a string, retrived through options.footer
@@ -94,6 +94,8 @@ You can specify a custom template, just write a single HTML file that contains t
 - `{{{ content }}}` markdown converted to HTML
 - `{{ previous }}` file name of the previous page
 - `{{ next }}` file name of the next page
+
+Note that currently submarine does not support separate asset files, so please include the styles and scripts in the HTML template.
 
 ## License
 
