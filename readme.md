@@ -103,4 +103,4 @@ MIT
 
 ## About
 
-This, as well as many node modules now exist in the world, was inspired by a conversation with @maxogden. Perhaps you should hang out with him some time too.
+This, as well as many node modules now exist in the world, was inspired by a conversation with [@maxogden](https://github.com/maxogden). Perhaps you should hang out with him some time too.
