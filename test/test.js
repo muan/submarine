@@ -1,5 +1,5 @@
 var submarine  = require('../index.js');
-var fs = require('fs');
+var fs = require('fs-extra');
 var test = require('tape');
 var path = require('path');
 var tmp = path.resolve(require('os').tmpdir(), 'submarine');
@@ -52,7 +52,7 @@ function startTests(filenames) {
         }
 
         test('has the right files', function(t) {
-            t.equal( files.length, 5, 'created 5 files?');
+            t.equal( files.length, 6, 'created 6 files?');
             filenames.forEach(function(name) {
                 fs.readFile(path.resolve(outputPath, name + '.html'), function(err, data) {
                     t.error( err, name + '.html exists?');
@@ -60,6 +60,7 @@ function startTests(filenames) {
                 });
             });
 
+            t.ok(files.indexOf('main.css'), 'main.css exists?');
             t.ok( files.indexOf('index.html') >= 0, 'index.html exists?');
             t.end();
         });

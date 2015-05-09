@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var marked = require('marked');
 var hb = require('handlebars');
@@ -79,6 +79,8 @@ function submarine(options, callback) {
     }
 
     function makeFiles(files) {
+        copyAssets();
+
         writeIndex(files, function(err) {
             if (t && err) {
                 t = false;
@@ -106,6 +108,23 @@ function submarine(options, callback) {
                     });
                 });
             });
+        });
+    }
+
+    function copyAssets() {
+        var assetsPath;
+
+        if (options.assets) {
+            assetsPath = path.resolve(process.cwd(), options.assets);
+        } else {
+            assetsPath = path.resolve(__dirname, 'template/assets');
+        }
+
+        fs.copy(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
+            if (t && err) {
+                t = false;
+                return callback(err);
+            }
         });
     }
 

@@ -17,8 +17,9 @@
   "author": "Mu-An Chiou <me@muanchiou.com>",
   "license": "MIT",
   "dependencies": {
-    "marked": "~0.3.2",
+    "fs-extra": "^0.18.3",
     "handlebars": "~2.0.0",
+    "marked": "~0.3.2",
     "minimist": "~1.1.0"
   },
   "devDependencies": {
