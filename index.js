@@ -112,7 +112,19 @@ function submarine(options, callback) {
     }
 
     function copyAssets() {
-        
+        var assetsPath;
+
+        if (options.assets) {
+            assetsPath = path.resolve(process.cwd(), options.assets);
+        } else {
+            assetsPath = path.resolve(__dirname, 'template/assets');
+        }
+
+        fs.copy(assetsPath, options.output_dir + '/assets', function (err) {
+            if (err) {
+                return console.error(err);
+            }
+        });
     }
 
     function writeHTML(file, filecontent, pages, finishing) {
