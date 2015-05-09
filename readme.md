@@ -26,7 +26,7 @@ var options = {
 
 submarine(options, callback)
 
-function callback(err) {
+function callback (err) {
   if(err) return console.log(err)
   console.log('how wonderful.')
 }
