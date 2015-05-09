@@ -1,4 +1,4 @@
-# Submarine [![Build Status](https://travis-ci.org/muan/submarine.svg?branch=master)](https://travis-ci.org/muan/submarine)
+# Submarine [![Build Status](https://travis-ci.org/muan/submarine.svg?branch=master)](https://travis-ci.org/muan/submarine) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
 Submarine takes a directory full of markdown files and convert them into a static site of HTML pages, including a table of contents page.
 
