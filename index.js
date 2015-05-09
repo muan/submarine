@@ -14,9 +14,9 @@ function submarine(options, callback) {
     var input = path.resolve(process.cwd(), options.input_dir);
     var invalidInput = !fs.existsSync(input);
 
-    if(invalidInput) {
+    if (invalidInput) {
         callback('\033[91mThe input directory `./' + options.input_dir + '` does not exist.\033[0m');
-    } else if(!options.output_dir) {
+    } else if (!options.output_dir) {
         callback('\033[91mPlease provide an output directory.\033[0m');
     } else {
         boardSubmarine(options);
@@ -41,7 +41,7 @@ function submarine(options, callback) {
 
     function createFolderMaybe(output_dir, proceed) {
         // Create output_dir if doesn't exist
-        if(!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
+        if (!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
             fs.mkdir(path.resolve(process.cwd(), output_dir), function(err) {
                 if (t && err) {
                     t = false;
@@ -58,7 +58,7 @@ function submarine(options, callback) {
     function getTemplate(proceed) {
         var templatePath;
 
-        if(options.template) {
+        if (options.template) {
             templatePath = path.resolve(process.cwd(), options.template);
         } else {
             templatePath = path.resolve(__dirname, 'template/index.html');

@@ -13,7 +13,9 @@ var called = false;
 // Teardown, buildup, and test
 rimraf(tmp, function() {
     fs.mkdir(tmp, function(err) {
-        if (err) return console.log(err);
+        if (err) {
+            return console.log(err);
+        }
 
         fakeData(inputPath, function(filenames) {
             options = {
@@ -25,7 +27,10 @@ rimraf(tmp, function() {
 
             // Run command to convert
             submarine(options, function(err) {
-                if (err) return console.log(err);
+                if (err) {
+                    return console.log(err);
+                }
+
                 console.log('Files built. <3');
                 called = true;
                 startTests(filenames);
@@ -42,7 +47,9 @@ function startTests(filenames) {
     });
 
     fs.readdir(outputPath, function(err, files) {
-        if (err) return console.log(err);
+        if (err) {
+            return console.log(err);
+        }
 
         test('has the right files', function(t) {
             t.equal( files.length, 5, 'created 5 files?');
@@ -60,7 +67,10 @@ function startTests(filenames) {
 
     test('flags work', function(t) {
         fs.readFile(path.resolve(outputPath, 'index.html'), function(err, data) {
-            if (err) return console.log(err);
+            if (err) {
+                return console.log(err);
+            }
+
             var $ = cheerio.load(data.toString());
             t.equal( $('.site-header').text().trim(), 'Cool World', 'has header?');
             t.equal( $('.site-footer').text().trim(), 'All rights abandoned.', 'has footer?');

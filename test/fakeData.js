@@ -7,7 +7,9 @@ module.exports = function(inputPath, callback) {
 
     // Create content dir
     fs.mkdir(inputPath, function(err) {
-        if (err) return console.log(err);
+        if (err){
+            return console.log(err);
+        }
     });
 
     // Create markdown content
@@ -17,7 +19,9 @@ module.exports = function(inputPath, callback) {
         var md = '# ' + name + '\n**' + name + '**, wow!';
     
         fs.writeFile(path.resolve(inputPath, name + '.md'), md, function (err) {
-            if (err) return console.log(err);
+            if (err) {
+                return console.log(err);
+            }
         });
     });
 
