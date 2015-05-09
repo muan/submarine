@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var fs = require('fs-extra')
 var submarine = require('../index.js')
 var args = require('minimist')(process.argv.slice(2))
 var options = {
@@ -26,7 +25,7 @@ if (args.version) {
   console.log()
   process.exit(0)
 } else {
-  submarine(options, function(err) {
+  submarine(options, function (err) {
     if (err) {
       console.log(err)
       process.exit(1)
