@@ -8,175 +8,175 @@ var i = 0;
 module.exports = submarine;
 
 function submarine(options, callback) {
-    options.header = options.header || "Submarine";
-    options.footer = options.footer || "";
+  options.header = options.header || "Submarine";
+  options.footer = options.footer || "";
 
-    var input = path.resolve(process.cwd(), options.input_dir);
-    var invalidInput = !fs.existsSync(input);
+  var input = path.resolve(process.cwd(), options.input_dir);
+  var invalidInput = !fs.existsSync(input);
 
-    if (invalidInput) {
-        callback('\033[91mThe input directory `./' + options.input_dir + '` does not exist.\033[0m');
-    } else if (!options.output_dir) {
-        callback('\033[91mPlease provide an output directory.\033[0m');
+  if (invalidInput) {
+    callback('\033[91mThe input directory `./' + options.input_dir + '` does not exist.\033[0m');
+  } else if (!options.output_dir) {
+    callback('\033[91mPlease provide an output directory.\033[0m');
+  } else {
+    boardSubmarine(options);
+  }
+
+  function boardSubmarine(options) {
+    createFolderMaybe(options.output_dir, function() {
+      fs.readdir(path.resolve(process.cwd(), options.input_dir), function(err, files) {
+        if (t && err) {
+          t = false;
+          return callback(err);
+        }
+
+        files = files.filter(function(n) {
+          return n.match(/.+\..+$/);
+        }).sort();
+
+        makeFiles(files, options, callback);
+      });
+    });
+  }
+
+  function createFolderMaybe(output_dir, proceed) {
+    // Create output_dir if doesn't exist
+    if (!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
+      fs.mkdir(path.resolve(process.cwd(), output_dir), function(err) {
+        if (t && err) {
+          t = false;
+          return callback(err);
+        }
+
+        proceed();
+      });
     } else {
-        boardSubmarine(options);
+      proceed();
+    }
+  }
+
+  function getTemplate(proceed) {
+    var templatePath;
+
+    if (options.template) {
+      templatePath = path.resolve(process.cwd(), options.template);
+    } else {
+      templatePath = path.resolve(__dirname, 'template/index.html');
     }
 
-    function boardSubmarine(options) {
-        createFolderMaybe(options.output_dir, function() {
-            fs.readdir(path.resolve(process.cwd(), options.input_dir), function(err, files) {
-                if (t && err) {
-                    t = false;
-                    return callback(err);
-                }
-
-                files = files.filter(function(n) {
-                    return n.match(/.+\..+$/);
-                }).sort();
-
-                makeFiles(files, options, callback);
-            });
-        });
+    if (!fs.existsSync(templatePath)) {
+      return callback('\033[91mThe template directory `' + templatePath + '` does not exist.\033[0m');
     }
 
-    function createFolderMaybe(output_dir, proceed) {
-        // Create output_dir if doesn't exist
-        if (!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
-            fs.mkdir(path.resolve(process.cwd(), output_dir), function(err) {
-                if (t && err) {
-                    t = false;
-                    return callback(err);
-                }
+    hb.registerPartial('header', (options.header || "Submarine"));
+    hb.registerPartial('footer', (options.footer || ""));
 
-                proceed();
-            });
-        } else {
-            proceed();
-        }
-    }
+    fs.readFile(templatePath, function(err, data) {
+      if (t && err) {
+        t = false;
+        return callback(err);
+      }
 
-    function getTemplate(proceed) {
-        var templatePath;
+      var template = hb.compile(data.toString());
+      proceed(template);
+    });
+  }
 
-        if (options.template) {
-            templatePath = path.resolve(process.cwd(), options.template);
-        } else {
-            templatePath = path.resolve(__dirname, 'template/index.html');
-        }
+  function makeFiles(files) {
+    copyAssets();
 
-        if (!fs.existsSync(templatePath)) {
-            return callback('\033[91mThe template directory `' + templatePath + '` does not exist.\033[0m');
-        }
+    writeIndex(files, function(err) {
+      if (t && err) {
+        t = false;
+        return callback(err);
+      }
 
-        hb.registerPartial('header', (options.header || "Submarine"));
-        hb.registerPartial('footer', (options.footer || ""));
+      // Write markdowns into HTML
+      files.forEach(function(name) {
+        fs.readFile(path.resolve(process.cwd(), options.input_dir, name), function(err, file) {
+          if (t && err) {
+            t = false;
+            return callback(err);
+          }
 
-        fs.readFile(templatePath, function(err, data) {
-            if (t && err) {
-                t = false;
-                return callback(err);
+          var index = files.indexOf(name);
+          var pages = {
+            prev: files[index-1],
+            next: files[index+1]
+          };
+
+          writeHTML(name, file.toString(), pages, function(i) {
+            if (files.length === i) {
+              callback();
             }
-
-            var template = hb.compile(data.toString());
-            proceed(template);
+          });
         });
+      });
+    });
+  }
+
+  function copyAssets() {
+    var assetsPath;
+
+    if (options.assets) {
+      assetsPath = path.resolve(process.cwd(), options.assets);
+    } else {
+      assetsPath = path.resolve(__dirname, 'template/assets');
     }
 
-    function makeFiles(files) {
-        copyAssets();
-
-        writeIndex(files, function(err) {
-            if (t && err) {
-                t = false;
-                return callback(err);
-            }
-
-            // Write markdowns into HTML
-            files.forEach(function(name) {
-                fs.readFile(path.resolve(process.cwd(), options.input_dir, name), function(err, file) {
-                    if (t && err) {
-                        t = false;
-                        return callback(err);
-                    }
-
-                    var index = files.indexOf(name);
-                    var pages = {
-                        prev: files[index-1],
-                        next: files[index+1]
-                    };
-
-                    writeHTML(name, file.toString(), pages, function(i) {
-                        if (files.length === i) {
-                            callback();
-                        }
-                    });
-                });
-            });
-        });
+    // check that the assets directory exists
+    if (!fs.existsSync(assetsPath)) {
+      return callback('\033[91mThe assets directory `' + assetsPath + '` does not exist.\033[0m');
     }
 
-    function copyAssets() {
-        var assetsPath;
+    fs.copy(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
+      if (t && err) {
+        t = false;
+        return callback(err);
+      }
+    });
+  }
 
-        if (options.assets) {
-            assetsPath = path.resolve(process.cwd(), options.assets);
-        } else {
-            assetsPath = path.resolve(__dirname, 'template/assets');
+  function writeHTML(file, filecontent, pages, finishing) {
+    getTemplate(function(template) {
+      var html = template({
+        content: marked(filecontent),
+        previous: getFilename(pages.prev),
+        next: getFilename(pages.next)
+      });
+
+      fs.writeFile(path.resolve(process.cwd(), options.output_dir, getFilename(file) + '.html'), html, function (err) {
+        if (t && err) {
+          t = false;
+          return callback(err);
         }
 
-        // check that the assets directory exists
-        if (!fs.existsSync(assetsPath)) {
-            return callback('\033[91mThe assets directory `' + assetsPath + '` does not exist.\033[0m');
-        }
+        i++;
+        finishing(i);
+      });
+    });
+  }
 
-        fs.copy(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
-            if (t && err) {
-                t = false;
-                return callback(err);
-            }
-        });
-    }
+  function writeIndex(files, proceed) {
+    getTemplate(function(template) {
+      var list = files.map(function(file) {
+        var name = getFilename(file);
+        
+        return {
+          href: name + '.html',
+          name: name
+        };
+      });
 
-    function writeHTML(file, filecontent, pages, finishing) {
-        getTemplate(function(template) {
-            var html = template({
-                content: marked(filecontent),
-                previous: getFilename(pages.prev),
-                next: getFilename(pages.next)
-            });
+      var html = template({index: list});
 
-            fs.writeFile(path.resolve(process.cwd(), options.output_dir, getFilename(file) + '.html'), html, function (err) {
-                if (t && err) {
-                    t = false;
-                    return callback(err);
-                }
-
-                i++;
-                finishing(i);
-            });
-        });
-    }
-
-    function writeIndex(files, proceed) {
-        getTemplate(function(template) {
-            var list = files.map(function(file) {
-                var name = getFilename(file);
-                
-                return {
-                    href: name + '.html',
-                    name: name
-                };
-            });
-
-            var html = template({index: list});
-
-            fs.writeFile(path.resolve(process.cwd(), options.output_dir, 'index.html'), html, function (err) {
-                proceed(err);
-            });
-        });
-    }
+      fs.writeFile(path.resolve(process.cwd(), options.output_dir, 'index.html'), html, function (err) {
+        proceed(err);
+      });
+    });
+  }
 }
 
 function getFilename(name) {
-    return name ? path.basename(name, path.extname(name)) : "";
+  return name ? path.basename(name, path.extname(name)) : "";
 }

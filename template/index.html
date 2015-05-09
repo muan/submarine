@@ -1,43 +1,43 @@
 <!doctype html>
 <html>
 <head>
-    <title>{{> header }}</title>
-    <link rel="stylesheet" type="text/css" href="assets/main.css">
+  <title>{{> header }}</title>
+  <link rel="stylesheet" type="text/css" href="assets/main.css">
 </head>
 <body>
-    <div class="wrapper">
-        <header class="site-header">
-            <a class="site-header-text" href="./index.html">{{> header }}</a>
-        </header>
+  <div class="wrapper">
+    <header class="site-header">
+      <a class="site-header-text" href="./index.html">{{> header }}</a>
+    </header>
 
-        <section class="content">
-            {{#if index}}
-                <h2 class="toc">Table of contents</h2>
-                <ul class="toc-list">
-                    {{#index}}
-                        <li><a href="{{ href }}">{{ name }}</a></li>
-                    {{/index}}
-                </ul>
-            {{/if}}
+    <section class="content">
+      {{#if index}}
+        <h2 class="toc">Table of contents</h2>
+        <ul class="toc-list">
+          {{#index}}
+            <li><a href="{{ href }}">{{ name }}</a></li>
+          {{/index}}
+        </ul>
+      {{/if}}
 
-            {{{ content }}}
+      {{{ content }}}
 
-            {{#if previous}}
-                <a class="lastp navlink" href="{{ previous }}.html">Previous: {{ previous }}</a>
-            {{ else }}
-                <div class="lastp navlink"></div>
-            {{/if}}
+      {{#if previous}}
+        <a class="lastp navlink" href="{{ previous }}.html">Previous: {{ previous }}</a>
+      {{ else }}
+        <div class="lastp navlink"></div>
+      {{/if}}
 
-            {{#if next}}
-                <a class="nextp navlink" href="{{ next }}.html">Next: {{ next }}</a>
-            {{ else }}
-                <div class="nextp navlink"></div>
-            {{/if}}
-        </section>
+      {{#if next}}
+        <a class="nextp navlink" href="{{ next }}.html">Next: {{ next }}</a>
+      {{ else }}
+        <div class="nextp navlink"></div>
+      {{/if}}
+    </section>
 
-        <footer class="site-footer">
-            {{> footer }}
-        </footer>
-    </div>
+    <footer class="site-footer">
+      {{> footer }}
+    </footer>
+  </div>
 </body>
 </html>
