@@ -120,9 +120,10 @@ function submarine(options, callback) {
             assetsPath = path.resolve(__dirname, 'template/assets');
         }
 
-        fs.copy(assetsPath, options.output_dir + '/assets', function (err) {
-            if (err) {
-                return console.error(err);
+        fs.copy(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
+            if (t && err) {
+                t = false;
+                return callback(err);
             }
         });
     }

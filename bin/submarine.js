@@ -8,7 +8,8 @@ var options = {
     output_dir: args._[1],
     header: args.header,
     footer: args.footer,
-    template: args.template
+    template: args.template,
+    assets: args.assets
 };
 
 if (args.version) {
@@ -20,6 +21,7 @@ if (args.version) {
     console.log('  --header=<header>    customize static site header, default to "Submarine"');
     console.log('  --footer=<footer>    customize static site footer');
     console.log('  --template=<file>    use a custom template');
+    console.log('  --assets=<directory> use a custom assets directory, defaults to "template/assets"');
     console.log('  --version            prints current version ');
     console.log();
     process.exit(0);
