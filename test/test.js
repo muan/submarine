@@ -1,5 +1,5 @@
 var submarine  = require('../index.js');
-var fs = require('fs');
+var fs = require('fs-extra');
 var test = require('tape');
 var path = require('path');
 var tmp = path.resolve(require('os').tmpdir(), 'submarine');

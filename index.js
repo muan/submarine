@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var marked = require('marked');
 var hb = require('handlebars');
@@ -79,6 +79,8 @@ function submarine(options, callback) {
     }
 
     function makeFiles(files) {
+        copyAssets();
+
         writeIndex(files, function(err) {
             if (t && err) {
                 t = false;
@@ -107,6 +109,10 @@ function submarine(options, callback) {
                 });
             });
         });
+    }
+
+    function copyAssets() {
+        
     }
 
     function writeHTML(file, filecontent, pages, finishing) {

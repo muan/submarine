@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
+var fs = require('fs-extra');
 var submarine = require('../index.js');
 var args = require('minimist')(process.argv.slice(2));
 var options = {
