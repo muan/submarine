@@ -64,6 +64,10 @@ function submarine(options, callback) {
             templatePath = path.resolve(__dirname, 'template/index.html');
         }
 
+        if (!fs.existsSync(templatePath)) {
+            return callback('\033[91mThe template directory `' + templatePath + '` does not exist.\033[0m');
+        }
+
         hb.registerPartial('header', (options.header || "Submarine"));
         hb.registerPartial('footer', (options.footer || ""));
 
@@ -118,6 +122,11 @@ function submarine(options, callback) {
             assetsPath = path.resolve(process.cwd(), options.assets);
         } else {
             assetsPath = path.resolve(__dirname, 'template/assets');
+        }
+
+        // check that the assets directory exists
+        if (!fs.existsSync(assetsPath)) {
+            return callback('\033[91mThe assets directory `' + assetsPath + '` does not exist.\033[0m');
         }
 
         fs.copy(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
