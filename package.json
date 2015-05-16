@@ -17,10 +17,10 @@
   "author": "Mu-An Chiou <me@muanchiou.com>",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^0.18.3",
     "handlebars": "~2.0.0",
     "marked": "~0.3.2",
-    "minimist": "~1.1.0"
+    "minimist": "~1.1.0",
+    "ncp": "^2.0.0"
   },
   "devDependencies": {
     "tape": "~3.0.1",
