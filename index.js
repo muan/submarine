@@ -1,7 +1,8 @@
-var fs = require('fs-extra')
+var fs = require('fs')
 var path = require('path')
 var marked = require('marked')
 var hb = require('handlebars')
+var ncp = require('ncp')
 var t = true
 var i = 0
 
@@ -25,10 +26,7 @@ function submarine(options, callback) {
   function boardSubmarine(options) {
     createFolderMaybe(options.output_dir, function() {
       fs.readdir(path.resolve(process.cwd(), options.input_dir), function(err, files) {
-        if (t && err) {
-          t = false
-          return callback(err)
-        }
+        if (t && err) { t = false; return callback(err) }
 
         files = files.filter(function(n) {
           return n.match(/.+\..+$/)
@@ -43,10 +41,7 @@ function submarine(options, callback) {
     // Create output_dir if doesn't exist
     if (!fs.existsSync(path.resolve(process.cwd(), output_dir))) {
       fs.mkdir(path.resolve(process.cwd(), output_dir), function(err) {
-        if (t && err) {
-          t = false
-          return callback(err)
-        }
+        if (t && err) { t = false; return callback(err) }
 
         proceed()
       })
@@ -118,8 +113,8 @@ function submarine(options, callback) {
   function copyAssets() {
     var assetsPath
 
-    if (options.assets) {
-      assetsPath = path.resolve(process.cwd(), options.assets)
+    if (options.assets_dir) {
+      assetsPath = path.resolve(process.cwd(), options.assets_dir)
     } else {
       assetsPath = path.resolve(__dirname, 'template/assets')
     }
@@ -129,12 +124,9 @@ function submarine(options, callback) {
       return callback('\033[91mThe assets directory `' + assetsPath + '` does not exist.\033[0m')
     }
 
-    fs.copy(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
-      if (t && err) {
-        t = false
-        return callback(err)
-      }
-    })
+    ncp(assetsPath, options.output_dir + '/' + path.basename(assetsPath), function (err) {
+      if (t && err) { t = false; return callback(err) }
+    });
   }
 
   function writeHTML(file, filecontent, pages, finishing) {
@@ -146,10 +138,7 @@ function submarine(options, callback) {
       })
 
       fs.writeFile(path.resolve(process.cwd(), options.output_dir, getFilename(file) + '.html'), html, function (err) {
-        if (t && err) {
-          t = false
-          return callback(err)
-        }
+        if (t && err) { t = false; return callback(err) }
 
         i++
         finishing(i)
@@ -161,7 +150,7 @@ function submarine(options, callback) {
     getTemplate(function(template) {
       var list = files.map(function(file) {
         var name = getFilename(file)
-        
+
         return {
           href: name + '.html',
           name: name
