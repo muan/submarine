@@ -8,7 +8,7 @@ var options = {
   header: args.header,
   footer: args.footer,
   template: args.template,
-  assets: args.assets
+  assets_dir: args.assets
 }
 
 if (args.version) {
