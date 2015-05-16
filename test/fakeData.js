@@ -1,4 +1,4 @@
-var fs = require('fs-extra')
+var fs = require('fs')
 var filenames = ['hello_world', 'cool_story_world', 'sup_world', 'yolo_world']
 var path = require('path')
 

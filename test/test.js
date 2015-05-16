@@ -1,5 +1,5 @@
 var submarine = require('../index.js')
-var fs = require('fs-extra')
+var fs = require('fs')
 var test = require('tape')
 var path = require('path')
 var tmp = path.resolve(require('os').tmpdir(), 'submarine')
@@ -14,9 +14,7 @@ var options
 // Teardown, buildup, and test
 rimraf(tmp, function () {
   fs.mkdir(tmp, function (err) {
-    if (err) {
-      return console.log(err)
-    }
+    if (err) return console.log(err)
 
     fakeData(inputPath, function (filenames) {
       options = {
@@ -48,9 +46,7 @@ function startTests (filenames) {
   })
 
   fs.readdir(outputPath, function (err, files) {
-    if (err) {
-      return console.log(err)
-    }
+    if (err) return console.log(err)
 
     test('has the right files', function (t) {
       t.equal(files.length, 6, 'created 6 files?')
@@ -61,17 +57,19 @@ function startTests (filenames) {
         })
       })
 
-      t.ok(files.indexOf('main.css'), 'main.css exists?')
       t.ok(files.indexOf('index.html') >= 0, 'index.html exists?')
-      t.end()
+
+      fs.readdir(outputPath + '/assets', function (err, files) {
+        if (err) return console.log(err)
+        t.ok(files.indexOf('main.css') >= 0, 'assets/main.css exists?')
+        t.end()
+      })
     })
   })
 
   test('flags work', function (t) {
     fs.readFile(path.resolve(outputPath, 'index.html'), function (err, data) {
-      if (err) {
-        return console.log(err)
-      }
+      if (err) return console.log(err)
 
       var $ = cheerio.load(data.toString())
       t.equal($('.site-header').text().trim(), 'Cool World', 'has header?')
