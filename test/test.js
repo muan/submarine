@@ -50,6 +50,8 @@ function startTests (filenames) {
 
     test('has the right files', function (t) {
       t.equal(files.length, 6, 'created 6 files?')
+      t.ok(files.indexOf('index.html') >= 0, 'index.html exists?')
+
       filenames.forEach(function (name) {
         fs.readFile(path.resolve(outputPath, name + '.html'), function (err, data) {
           t.error(err, name + '.html exists?')
@@ -57,13 +59,12 @@ function startTests (filenames) {
         })
       })
 
-      t.ok(files.indexOf('index.html') >= 0, 'index.html exists?')
-
       fs.readdir(outputPath + '/assets', function (err, files) {
         if (err) return console.log(err)
         t.ok(files.indexOf('main.css') >= 0, 'assets/main.css exists?')
-        t.end()
       })
+
+      t.end()
     })
   })
 
