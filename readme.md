@@ -21,7 +21,8 @@ var options = {
   output_dir: 'site',
   header: 'API Example', // optional
   footer: 'hi this shows in the footer', // optional
-  template: 'custom/default.html' // optional
+  template: 'custom/default.html', // optional
+  assets: 'custom/assetsdirectory' // optional
 }
 
 submarine(options, callback)
@@ -43,6 +44,7 @@ Options:
   --header=<header>    customize static site header, default to "Submarine"
   --footer=<footer>    customize static site footer
   --template=<file>    use a custom template
+  --assets=<directory> use a custom assets directory
   --version            prints current version
 ```
 
@@ -78,6 +80,7 @@ site/
   3_cool_story_world.html
   4_yolo_world.html
   index.html
+  assets/main.css
 ```
 
 ![](http://cl.ly/image/0i0j3T3W1b1W/Image%202014-10-19%20at%2011.31.41%20PM.png)
@@ -95,7 +98,9 @@ You can specify a custom template with `--template=cooltemplate.html`, see [the 
 - `{{ previous }}` file name of the previous page
 - `{{ next }}` file name of the next page
 
-Note that currently submarine does not support separate asset files, so please include the styles and scripts in the HTML template.
+## Assets
+
+You can specify a custom assets directory with `--assets=assetsdirectory`. This directory will be copied into your chosen output directory so you can include all your css, javascript and any other static assets you want. And don't worry, sub-directories will also be copied.
 
 ## License
 
