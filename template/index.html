@@ -22,16 +22,18 @@
 
       {{{ content }}}
 
-      {{#if previous}}
-        <a class="lastp navlink" href="{{ previous }}.html">Previous: {{ previous }}</a>
-      {{ else }}
-        <div class="navlink"></div>
-      {{/if}}
+      {{#if content}}
+        {{#if previous}}
+          <a class="lastp navlink" href="{{ previous }}.html">Previous: {{ previous }}</a>
+        {{ else }}
+          <div class="navlink"></div>
+        {{/if}}
 
-      {{#if next}}
-        <a class="nextp navlink" href="{{ next }}.html">Next: {{ next }}</a>
-      {{ else }}
-        <div class="navlink"></div>
+        {{#if next}}
+          <a class="nextp navlink" href="{{ next }}.html">Next: {{ next }}</a>
+        {{ else }}
+          <div class="navlink"></div>
+        {{/if}}
       {{/if}}
     </section>
 
