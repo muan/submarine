@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var fs = require('fs')
 var submarine = require('../index.js')
 var args = require('minimist')(process.argv.slice(2))
 var options = {
@@ -8,10 +7,11 @@ var options = {
   output_dir: args._[1],
   header: args.header,
   footer: args.footer,
-  template: args.template
+  template: args.template,
+  assets_dir: args.assets
 }
 
-if(args.version) {
+if (args.version) {
   console.log(require('../package.json').version)
   process.exit(0)
 } else if (args._.length === 0) {
@@ -20,11 +20,12 @@ if(args.version) {
   console.log('  --header=<header>    customize static site header, default to "Submarine"')
   console.log('  --footer=<footer>    customize static site footer')
   console.log('  --template=<file>    use a custom template')
+  console.log('  --assets=<directory> use a custom assets directory, defaults to "template/assets"')
   console.log('  --version            prints current version ')
   console.log()
   process.exit(0)
 } else {
-  submarine(options, function(err) {
+  submarine(options, function (err) {
     if (err) {
       console.log(err)
       process.exit(1)
